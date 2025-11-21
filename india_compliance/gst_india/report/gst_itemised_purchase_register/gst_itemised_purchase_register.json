@@ -9,7 +9,7 @@
  "filters": [],
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2022-03-01 15:45:14.325388",
+ "modified": "2024-01-16 12:05:40.115942",
  "modified_by": "Administrator",
  "module": "GST India",
  "name": "GST Itemised Purchase Register",
@@ -24,6 +24,9 @@
   },
   {
    "role": "Accounts User"
+  },
+  {
+   "role": "Auditor"
   }
  ]
 }

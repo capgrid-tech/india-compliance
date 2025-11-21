@@ -1,13 +1,14 @@
 {
  "charts": [],
  "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Shortcuts</b></span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GST Settings\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GSTR-1\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GSTR-3B\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"HSN Code\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"India Compliance Account\",\"col\":3}},{\"type\":\"spacer\",\"data\":{\"col\":12}},{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports and Masters</b></span>\",\"col\":12}},{\"type\":\"card\",\"data\":{\"card_name\":\"Sales and Purchase Reports\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"type\":\"card\",\"data\":{\"card_name\":\"Other GST Reports\",\"col\":4}}]",
- "creation": "2022-02-28 19:04:58.655348",
+ "creation": "2025-07-05 11:44:06.932861",
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
  "icon": "expenses",
  "idx": 0,
+ "is_hidden": 0,
  "label": "GST India",
  "links": [
   {
@@ -15,6 +16,7 @@
    "is_query_report": 0,
    "label": "Other GST Reports",
    "link_count": 2,
+   "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -43,6 +45,7 @@
    "is_query_report": 0,
    "label": "Logs",
    "link_count": 3,
+   "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -81,6 +84,7 @@
    "is_query_report": 0,
    "label": "Sales and Purchase Reports",
    "link_count": 4,
+   "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -125,11 +129,12 @@
    "type": "Link"
   }
  ],
- "modified": "2022-06-24 21:27:45.929329",
- "modified_by": "Administrator",
+ "modified": "2025-07-05 11:44:06.932861",
+ "modified_by": "erp@capgridsolutions.com",
  "module": "GST India",
  "name": "GST India",
- "owner": "Administrator",
+ "number_cards": [],
+ "owner": "erp@capgridsolutions.com",
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
