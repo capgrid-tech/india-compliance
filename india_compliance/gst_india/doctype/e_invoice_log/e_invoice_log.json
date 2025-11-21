@@ -137,7 +137,6 @@
  "owner": "Administrator",
  "permissions": [
   {
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
@@ -147,7 +146,6 @@
    "share": 1
   },
   {
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
