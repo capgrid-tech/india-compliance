@@ -48,7 +48,7 @@ function update_gstin_in_other_documents(doctype) {
 function validate_gstin(doctype) {
     frappe.ui.form.on(doctype, {
         gstin(frm) {
-            const { gstin } = frm.doc;
+            let { gstin } = frm.doc;
 
             // TODO: remove below condition once event is fixed in frappe
             if (!gstin || gstin.length < 15) return;
@@ -57,7 +57,9 @@ function validate_gstin(doctype) {
                 frappe.throw(__("GSTIN/UIN should be 15 characters long"));
             }
 
-            frm.doc.gstin = gstin.trim().toUpperCase();
+            gstin = india_compliance.validate_gstin(gstin);
+
+            frm.doc.gstin = gstin;
             frm.refresh_field("gstin");
 
             if (!frm.fields_dict.pan) return;
@@ -68,6 +70,7 @@ function validate_gstin(doctype) {
             if (PAN_REGEX.test(pan)) {
                 frm.doc.pan = pan;
                 frm.refresh_field("pan");
+                set_party_type(frm);
             }
         },
     });
@@ -91,6 +94,7 @@ function validate_pan(doctype) {
 
             frm.doc.pan = pan;
             frm.refresh_field("pan");
+            set_party_type(frm);
         },
     });
 }
@@ -114,17 +118,26 @@ function show_overseas_disabled_warning(doctype) {
     });
 }
 
-function set_gstin_query(doctype) {
+function set_gstin_options_and_status(doctype) {
     frappe.ui.form.on(doctype, {
-        async refresh(frm) {
-            if (frm.is_new() || frm._gstin_options_set_for == frm.doc.name) return;
-
-            frm._gstin_options_set_for = frm.doc.name;
-            const field = frm.get_field("gstin");
-            field.df.ignore_validation = true;
-            field.set_data(await india_compliance.get_gstin_options(frm.doc.name, doctype));
+        refresh(frm) {
+            set_gstin_options(frm);
+            india_compliance.set_gstin_status(frm.get_field("gstin"));
+        },
+        gstin(frm) {
+            india_compliance.set_gstin_status(frm.get_field("gstin"));
         },
     });
+}
+
+async function set_gstin_options(frm) {
+    if (frm.is_new() || frm._gstin_options_set_for === frm.doc.name) return;
+
+    frm._gstin_options_set_for = frm.doc.name;
+    const field = frm.get_field("gstin");
+    if (!field || field.df.fieldtype != "Autocomplete") return;
+    field.df.ignore_validation = true;
+    field.set_data(await india_compliance.get_gstin_options(frm.doc.name, frm.doctype));
 }
 
 function set_gst_category(doctype) {
@@ -136,4 +149,14 @@ function set_gst_category(doctype) {
             );
         },
     });
+}
+
+function set_party_type(frm) {
+    if (!["Customer", "Supplier"].includes(frm.doc.doctype)) return;
+    pan_to_party_type_map = {
+        F: "Partnership",
+        C: "Company",
+    };
+    party_type = frm.doc.doctype === "Customer" ? "customer_type" : "supplier_type";
+    frm.set_value(party_type, pan_to_party_type_map[frm.doc.pan[3]] || "Individual");
 }

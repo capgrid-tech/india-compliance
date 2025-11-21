@@ -1,6 +1,5 @@
 import frappe
 
-from india_compliance.gst_india.constants import OVERSEAS_GST_CATEGORIES
 from india_compliance.gst_india.constants.custom_fields import (
     SALES_REVERSE_CHARGE_FIELDS,
 )
@@ -17,9 +16,10 @@ def execute():
     enable_overseas_transactions(new_settings)
     enable_reverse_charge_in_sales(new_settings)
     enable_e_waybill_from_dn(new_settings)
+    enable_sales_through_ecommerce_operators(new_settings)
 
     if new_settings:
-        frappe.db.set_value("GST Settings", None, new_settings)
+        frappe.db.set_single_value("GST Settings", new_settings)
 
 
 def enable_e_waybill_from_dn(settings):
@@ -36,7 +36,7 @@ def enable_overseas_transactions(settings):
     for doctype in ("Sales Invoice", "Purchase Invoice"):
         if frappe.db.exists(
             doctype,
-            {"gst_category": ("in", OVERSEAS_GST_CATEGORIES), **POSTING_DATE_CONDITION},
+            {"gst_category": ("in", {"Overseas", "SEZ"}), **POSTING_DATE_CONDITION},
         ):
             settings["enable_overseas_transactions"] = 1
             return
@@ -51,3 +51,13 @@ def enable_reverse_charge_in_sales(settings):
 
     settings["enable_reverse_charge_in_sales"] = 1
     toggle_custom_fields(SALES_REVERSE_CHARGE_FIELDS, True)
+
+
+def enable_sales_through_ecommerce_operators(settings=None):
+    if not frappe.db.exists(
+        "Sales Invoice",
+        {"ecommerce_gstin": ("not in", ("", None)), **POSTING_DATE_CONDITION},
+    ):
+        return
+
+    settings["enable_sales_through_ecommerce_operators"] = 1

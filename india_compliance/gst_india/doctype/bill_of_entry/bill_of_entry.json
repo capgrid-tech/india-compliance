@@ -9,9 +9,9 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "column_break_2wjs",
-  "amended_from",
   "column_break_hbfk",
+  "amended_from",
+  "column_break_2wjs",
   "section_break_fqdh",
   "purchase_invoice",
   "column_break_epap",
@@ -22,6 +22,7 @@
   "bill_of_entry_no",
   "bill_of_entry_date",
   "column_break_v3jw",
+  "bill_of_lading_no",
   "port_code",
   "column_break_srom",
   "posting_date",
@@ -30,6 +31,7 @@
   "column_break_xjvk",
   "customs_expense_account",
   "column_break_zsed",
+  "reconciliation_status",
   "accounting_dimensions_section",
   "cost_center",
   "dimension_col_break",
@@ -64,7 +66,7 @@
    "fieldname": "bill_of_entry_no",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Bill of Entry No",
+   "label": "Bill of Entry No.",
    "reqd": 1
   },
   {
@@ -263,13 +265,39 @@
    "label": "Customs Duty Expense Account",
    "options": "Account",
    "reqd": 1
+  },
+  {
+   "fieldname": "bill_of_lading_no",
+   "fieldtype": "Data",
+   "label": "Bill of Lading No."
+  },
+  {
+   "fieldname": "reconciliation_status",
+   "fieldtype": "Select",
+   "label": "2A/2B Reconciliation Status",
+   "no_copy": 1,
+   "options": "\nNot Applicable\nReconciled\nUnreconciled\nIgnored",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2023-03-24 09:46:13.847177",
+ "links": [
+  {
+   "group": "Payment",
+   "link_doctype": "Journal Entry",
+   "link_fieldname": "reference_name",
+   "table_fieldname": "reference_name"
+  },
+  {
+   "group": "GST Logs",
+   "link_doctype": "GST Inward Supply",
+   "link_fieldname": "link_name"
+  }
+ ],
+ "modified": "2023-12-13 16:43:40.501418",
  "modified_by": "Administrator",
  "module": "GST India",
  "name": "Bill of Entry",

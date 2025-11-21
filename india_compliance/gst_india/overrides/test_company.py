@@ -1,9 +1,7 @@
-import re
-
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from india_compliance.gst_india.overrides.company import make_default_tax_templates
+from india_compliance.gst_india.overrides.company import get_tax_defaults
 
 
 class TestCompanyFixtures(FrappeTestCase):
@@ -32,14 +30,21 @@ class TestCompanyFixtures(FrappeTestCase):
     def tearDownClass(cls):
         frappe.db.rollback(save_point="before_test_company")
 
-    def test_company_exist(self):
-        self.assertRaisesRegex(
-            frappe.exceptions.ValidationError,
-            re.compile(r"^(.*does not exist yet.*)$"),
-            make_default_tax_templates,
-            "Random Company Name",
-        )
-
     def test_tax_defaults_setup(self):
         # Check for tax category creations.
         self.assertTrue(frappe.db.exists("Tax Category", "Reverse Charge In-State"))
+
+    def test_get_tax_defaults(self):
+        gst_rate = 12
+        default_taxes = get_tax_defaults(gst_rate)
+
+        for template_type in ("sales_tax_templates", "purchase_tax_templates"):
+            template = default_taxes["chart_of_accounts"]["*"][template_type]
+            for tax in template:
+                for row in tax.get("taxes"):
+                    expected_rate = (
+                        gst_rate
+                        if "IGST" in row["account_head"]["account_name"]
+                        else gst_rate / 2
+                    )
+                    self.assertEqual(row["account_head"]["tax_rate"], expected_rate)

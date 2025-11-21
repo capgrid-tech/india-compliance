@@ -3,7 +3,7 @@
 
 frappe.ui.form.on('GST HSN Code', {
 	refresh: function(frm) {
-		if(! frm.doc.__islocal && frm.doc.taxes.length){
+		if(!frm.doc.__islocal){
 			frm.add_custom_button(__('Update Taxes for Items'), function(){
 				frappe.confirm(
 					'Are you sure? It will overwrite taxes for all items with HSN Code <b>'+frm.doc.name+'</b>.',
@@ -16,7 +16,7 @@ frappe.ui.form.on('GST HSN Code', {
 							method: 'india_compliance.gst_india.doctype.gst_hsn_code.gst_hsn_code.update_taxes_in_item_master',
 							callback: function(r) {
 								if(r.message){
-									frappe.show_alert(__('Item taxes updated'));
+									frappe.show_alert(__('Items with this HSN code will be updated shortly'));
 								}
 							}
 						});

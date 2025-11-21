@@ -6,7 +6,7 @@ validate_pan(DOCTYPE);
 validate_gstin(DOCTYPE);
 update_gstin_in_other_documents(DOCTYPE);
 show_overseas_disabled_warning(DOCTYPE);
-set_gstin_query(DOCTYPE);
+set_gstin_options_and_status(DOCTYPE);
 
 frappe.ui.form.off(DOCTYPE, "make_default_tax_template");
 frappe.ui.form.on(DOCTYPE, {
@@ -19,6 +19,11 @@ frappe.ui.form.on(DOCTYPE, {
             "default_customs_payable_account",
             { root_type: "Liability" },
         ]);
+
+        erpnext.company.set_custom_query(frm, [
+            "default_gst_expense_account",
+            {},
+        ]);
     },
 
     make_default_tax_template: function (frm) {
@@ -26,7 +31,7 @@ frappe.ui.form.on(DOCTYPE, {
 
         frappe.call({
             method: "india_compliance.gst_india.overrides.company.make_default_tax_templates",
-            args: { company: frm.doc.name },
+            args: { company: frm.doc.name, gst_rate: frm.doc.default_gst_rate},
             callback: function () {
                 frappe.msgprint(__("Default Tax Templates created"));
             },

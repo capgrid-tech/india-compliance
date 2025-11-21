@@ -4,6 +4,9 @@ from india_compliance.gst_india.utils import GST_ACCOUNT_FIELDS
 
 
 def execute():
+    if "eligibility_for_itc" not in frappe.db.get_table_columns("Purchase Invoice"):
+        return
+
     itc_amounts = {
         "itc_integrated_tax": 0,
         "itc_state_tax": 0,
@@ -98,9 +101,9 @@ def get_gst_accounts(
     if company:
         filters["company"] = company
     if only_reverse_charge:
-        filters["account_type"] = "Reverse Charge"
+        filters["account_type"] = "Purchase Reverse Charge"
     elif only_non_reverse_charge:
-        filters["account_type"] = ("!=", "Reverse Charge")
+        filters["account_type"] = ("!=", "Purchase Reverse Charge")
 
     settings = frappe.get_cached_doc("GST Settings", "GST Settings")
     gst_accounts = settings.get("gst_accounts", filters)

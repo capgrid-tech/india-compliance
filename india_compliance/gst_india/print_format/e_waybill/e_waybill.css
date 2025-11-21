@@ -1,6 +1,28 @@
+
+.table-element {
+    font-size: 12px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.no-border {
+    border: none !important;
+}
+
+.no-border > * {
+    border: none;
+}
+
 .print-format {
     padding: 0.25in;
     color: black;
+}
+
+table, th, td {
+    border: 1px solid #d1d8dd;
+    border-collapse: collapse;
 }
 
 @media print {
@@ -11,10 +33,10 @@
     }
 }
 
-.print-format tbody > tr > td,
-.print-format tbody > tr > th {
+.print-format tbody>tr>td,
+.print-format tbody>tr>th {
     padding: 6px !important;
-    border-top: None;
+    border-top: none;
     color: black;
 }
 
@@ -30,7 +52,7 @@
 
 .print-format .page-layout {
     font-size: 12px;
-    line-height: 1.42857143;
+    line-height: 1.4286;
     box-sizing: border-box;
     transform-origin: top center;
     width: 95%;
@@ -49,12 +71,8 @@
 
 .print-format .vehicle-info td,
 .print-format .vehicle-info th {
-    border: 0px !important;
+    border: 0 !important;
     border-top: 1px solid black !important;
-}
-
-.print-format .ewb-no-span {
-    font-size: 13px;
 }
 
 .print-format .section-separator {
@@ -67,4 +85,8 @@
     margin-top: 5px;
     width: 95px !important;
     image-rendering: -webkit-optimize-contrast;
+}
+
+.custom-margin {
+    margin: 5px 0 15px;
 }

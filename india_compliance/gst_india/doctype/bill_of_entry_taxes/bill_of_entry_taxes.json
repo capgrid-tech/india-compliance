@@ -13,6 +13,7 @@
   "account_head",
   "section_break_10",
   "rate",
+  "gst_tax_type",
   "column_break_pipk",
   "tax_amount",
   "total",
@@ -28,7 +29,7 @@
    "label": "Type",
    "oldfieldname": "charge_type",
    "oldfieldtype": "Select",
-   "options": "\nActual\nOn Net Total",
+   "options": "\nActual\nOn Net Total\nOn Item Quantity",
    "reqd": 1
   },
   {
@@ -89,11 +90,17 @@
    "fieldtype": "Code",
    "hidden": 1,
    "label": "Item Wise Tax Rates"
+  },
+  {
+   "fieldname": "gst_tax_type",
+   "fieldtype": "Data",
+   "label": "GST Tax Type",
+   "read_only": 1
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2023-03-11 17:31:11.315202",
+ "modified": "2024-06-12 18:03:36.955731",
  "modified_by": "Administrator",
  "module": "GST India",
  "name": "Bill of Entry Taxes",

@@ -6,6 +6,7 @@ def is_audit_trail_enabled():
     return bool(frappe.db.get_single_value("Accounts Settings", "enable_audit_trail"))
 
 
+@frappe.whitelist()
 def get_audit_trail_doctypes():
     return set(frappe.get_hooks("audit_trail_doctypes"))
 
@@ -26,5 +27,4 @@ def disable_audit_trail_notification():
 def enable_audit_trail():
     accounts_settings = frappe.get_doc("Accounts Settings")
     accounts_settings.enable_audit_trail = 1
-    accounts_settings.flags.ignore_version = True
     accounts_settings.save()

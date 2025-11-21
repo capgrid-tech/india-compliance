@@ -36,6 +36,7 @@ def before_tests():
 
     set_default_settings_for_tests()
     create_test_records()
+    set_default_company_for_tests()
     frappe.db.commit()
 
     frappe.flags.country = "India"
@@ -61,9 +62,28 @@ def create_test_records():
     )
 
     for doctype, data in test_records.items():
-        make_test_objects(doctype, data, reset=True)
+        make_test_objects(doctype, data)
         if doctype == "Company":
             add_companies_to_fiscal_year(data)
+
+
+def set_default_company_for_tests():
+    # stock settings
+    frappe.db.set_value(
+        "Company",
+        "_Test Indian Registered Company",
+        {
+            "enable_perpetual_inventory": 1,
+            "default_inventory_account": "Stock In Hand - _TIRC",
+            "stock_adjustment_account": "Stock Adjustment - _TIRC",
+            "stock_received_but_not_billed": "Stock Received But Not Billed - _TIRC",
+        },
+    )
+
+    # set default company
+    global_defaults = frappe.get_single("Global Defaults")
+    global_defaults.default_company = "_Test Indian Registered Company"
+    global_defaults.save()
 
 
 def add_companies_to_fiscal_year(data):

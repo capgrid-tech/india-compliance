@@ -2,7 +2,7 @@ import unittest
 
 import frappe
 
-from india_compliance.gst_india.overrides.sales_invoice import validate_invoice_number
+from india_compliance.gst_india.utils import validate_invoice_number
 
 
 class TestSalesInvoice(unittest.TestCase):
@@ -17,7 +17,9 @@ class TestSalesInvoice(unittest.TestCase):
             "PI2021 - 001",
         ]
         for name in invalid_names:
-            doc = frappe._dict(name=name, posting_date=posting_date)
+            doc = frappe._dict(
+                name=name, posting_date=posting_date, doctype="Sales Invoice"
+            )
             self.assertRaises(frappe.ValidationError, validate_invoice_number, doc)
 
         valid_names = [
